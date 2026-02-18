@@ -1,0 +1,43 @@
+package com.guifroes1984.moto_controle.dto;
+
+public class RegisterRequest {
+
+	private String usuario;
+	private String email;
+	private String senha;
+
+	public RegisterRequest() {
+
+	}
+
+	public RegisterRequest(String usuario, String email, String senha) {
+		this.usuario = usuario;
+		this.email = email;
+		this.senha = senha;
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+}
