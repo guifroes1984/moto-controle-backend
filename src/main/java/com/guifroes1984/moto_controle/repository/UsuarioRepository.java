@@ -8,8 +8,8 @@ import com.guifroes1984.moto_controle.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
-	Optional<Usuario> findByUsername(String usuario);
-	Boolean existsByUsername(String usuario);
+	Optional<Usuario> findByUsuario(String usuario);
+	Boolean existsByUsuario(String usuario);
 	Boolean existsByEmail(String email);
 
 }

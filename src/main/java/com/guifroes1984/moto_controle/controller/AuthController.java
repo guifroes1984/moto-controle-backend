@@ -47,7 +47,7 @@ public class AuthController {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			String jwtToken = jwtService.generateToken(userDetails);
 
-			Usuario usuario = usuarioRepository.findByUsername(request.getUsuario()).orElseThrow();
+			Usuario usuario = usuarioRepository.findByUsuario(request.getUsuario()).orElseThrow();
 
 			LoginResponse response = new LoginResponse(jwtToken, "Bearer", usuario.getId(), usuario.getUsuario(),
 					usuario.getEmail(), usuario.getRole());
@@ -62,7 +62,7 @@ public class AuthController {
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 
-		if (usuarioRepository.existsByUsername(request.getUsuario())) {
+		if (usuarioRepository.existsByUsuario(request.getUsuario())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body("Nome de usuário já existe");
 		}
 
