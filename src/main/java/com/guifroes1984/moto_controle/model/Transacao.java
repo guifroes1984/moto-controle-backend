@@ -2,6 +2,8 @@ package com.guifroes1984.moto_controle.model;
 
 import java.time.LocalDateTime;
 
+import com.guifroes1984.moto_controle.enums.TipoTransacao;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -23,7 +25,7 @@ public class Transacao {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private String TipoTransacao;
+	private TipoTransacao tipo;
 
 	@Column(nullable = false)
 	private String categoria;
@@ -43,11 +45,10 @@ public class Transacao {
 	public Transacao() {
 	}
 
-	public Transacao(Long id, String tipoTransacao, String categoria, Double valor, LocalDateTime data,
-			String descricao, Usuario usuario) {
-		super();
+	public Transacao(Long id, TipoTransacao tipo, String categoria, Double valor, LocalDateTime data, String descricao,
+			Usuario usuario) {
 		this.id = id;
-		TipoTransacao = tipoTransacao;
+		this.tipo = tipo;
 		this.categoria = categoria;
 		this.valor = valor;
 		this.data = data;
@@ -63,12 +64,12 @@ public class Transacao {
 		this.id = id;
 	}
 
-	public String getTipoTransacao() {
-		return TipoTransacao;
+	public TipoTransacao getTipo() {
+		return tipo;
 	}
 
-	public void setTipoTransacao(String tipoTransacao) {
-		TipoTransacao = tipoTransacao;
+	public void setTipo(TipoTransacao tipo) {
+		this.tipo = tipo;
 	}
 
 	public String getCategoria() {

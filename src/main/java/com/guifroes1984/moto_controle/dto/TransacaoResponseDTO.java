@@ -16,9 +16,8 @@ public class TransacaoResponseDTO {
 	public TransacaoResponseDTO() {
 	}
 
-	public TransacaoResponseDTO(Long id, TipoTransacao tipo, String categoria, Double valor, String data,
+	public TransacaoResponseDTO(Long id,  TipoTransacao tipo, String categoria, Double valor, String data,
 			String descricao, Long usuarioId, String usuarioNome) {
-		super();
 		this.id = id;
 		this.tipo = tipo;
 		this.categoria = categoria;

@@ -10,13 +10,12 @@ public class ResumoDTO {
 	public ResumoDTO() {
 	}
 
-	public ResumoDTO(Double totalGanhos, Double totalGastos, Double lucroLiquido, Long quantidadeTransacoes) {
-		super();
-		this.totalGanhos = totalGanhos;
-		this.totalGastos = totalGastos;
-		this.lucroLiquido = lucroLiquido;
-		this.quantidadeTransacoes = quantidadeTransacoes;
-	}
+	public ResumoDTO(Double totalGanhos, Double totalGastos, Long quantidadeTransacoes) {
+        this.totalGanhos = totalGanhos != null ? totalGanhos : 0.0;
+        this.totalGastos = totalGastos != null ? totalGastos : 0.0;
+        this.lucroLiquido = this.totalGanhos - this.totalGastos;
+        this.quantidadeTransacoes = quantidadeTransacoes != null ? quantidadeTransacoes : 0L;
+    }
 
 	public Double getTotalGanhos() {
 		return totalGanhos;
@@ -49,7 +48,7 @@ public class ResumoDTO {
 	}
 
 	public void setQuantidadeTransacoes(Long quantidadeTransacoes) {
-		this.quantidadeTransacoes = quantidadeTransacoes;
+		this.quantidadeTransacoes = quantidadeTransacoes != null ? quantidadeTransacoes : 0L;
 	}
 	
 	
