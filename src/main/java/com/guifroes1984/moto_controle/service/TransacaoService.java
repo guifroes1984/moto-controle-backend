@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.guifroes1984.moto_controle.dto.ResumoDTO;
 import com.guifroes1984.moto_controle.dto.TransacaoRequestDTO;
 import com.guifroes1984.moto_controle.dto.TransacaoResponseDTO;
+import com.guifroes1984.moto_controle.exception.TransacaoNaoEncontradaException;
 import com.guifroes1984.moto_controle.model.Transacao;
 import com.guifroes1984.moto_controle.model.Usuario;
 import com.guifroes1984.moto_controle.repository.TransacaoRepository;
@@ -49,7 +50,7 @@ public class TransacaoService {
 	public TransacaoResponseDTO buscarPorId(Long id) {
 		Usuario usuario = getUsuarioAtual();
 		Transacao transacao = transacaoRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Transação não encontrada"));
+				.orElseThrow(() -> new TransacaoNaoEncontradaException(id));
 
 		if (!transacao.getUsuario().getId().equals(usuario.getId())) {
 			throw new RuntimeException("Acesso negado a esta transação");
@@ -97,7 +98,7 @@ public class TransacaoService {
 				.orElseThrow(() -> new RuntimeException("Transação não encontrada"));
 
 		if (!transacao.getUsuario().getId().equals(usuario.getId())) {
-			throw new RuntimeException("Acesso negado a esta transação");
+			throw new TransacaoNaoEncontradaException(id);
 		}
 
 		transacaoRepository.delete(transacao);
