@@ -18,7 +18,7 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
 	List<Transacao> findByUsuarioAndDataBetweenOrderByDataDesc(Usuario usuario, LocalDateTime inicio,
 			LocalDateTime fim);
 
-	@Query("SELECT COALESCE(SUM(T.valor), 0) FROM Transacao t" + "WHERE t.usuario = : usuario AND t.tipo = :tipo")
+	@Query("SELECT COALESCE(SUM(t.valor), 0) FROM Transacao t " + "WHERE t.usuario = :usuario AND t.tipo = :tipo")
 	Double somarPorTipo(@Param("usuario") Usuario usuario, @Param("tipo") TipoTransacao tipo);
 
 	@Query("SELECT COUNT(t) FROM Transacao t WHERE t.usuario = :usuario")

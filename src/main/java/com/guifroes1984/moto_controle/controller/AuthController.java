@@ -21,9 +21,15 @@ import com.guifroes1984.moto_controle.model.Usuario;
 import com.guifroes1984.moto_controle.repository.UsuarioRepository;
 import com.guifroes1984.moto_controle.service.JwtService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "http://localhost:4200")
+@Tag(name = "Autenticação", description = "Endpoints para login e registro de usuários")
 public class AuthController {
 
 	@Autowired
@@ -38,6 +44,9 @@ public class AuthController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	@Operation(summary = "Realizar login", description = "Autentica um usuário e retorna um token JWT")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Login realizado com sucesso"),
+			@ApiResponse(responseCode = "401", description = "Usuário ou senha inválidos") })
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginRequest request) {
 		try {
@@ -59,6 +68,9 @@ public class AuthController {
 		}
 	}
 
+	@Operation(summary = "Registrar novo usuário", description = "Cria uma nova conta de usuário")
+	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "Usuário criado com sucesso"),
+			@ApiResponse(responseCode = "409", description = "Usuário ou e-mail já existe") })
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
 
@@ -80,8 +92,7 @@ public class AuthController {
 			Usuario savedUser = usuarioRepository.save(usuario);
 
 			UserDetails userDetails = org.springframework.security.core.userdetails.User
-					.withUsername(savedUser.getUsuario())
-					.password(savedUser.getSenha())
+					.withUsername(savedUser.getUsuario()).password(savedUser.getSenha())
 					.authorities("ROLE_" + savedUser.getRole()).build();
 
 			String jwtToken = jwtService.generateToken(userDetails);
