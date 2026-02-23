@@ -1,6 +1,8 @@
 package com.guifroes1984.moto_controle.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +37,7 @@ public class TransacaoService {
 	}
 
 	public TransacaoResponseDTO converterParaDTO(Transacao transacao) {
-		DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		return new TransacaoResponseDTO(transacao.getId(), transacao.getTipo(), transacao.getCategoria(),
 				transacao.getValor(), transacao.getData().format(formatter), transacao.getDescricao(),
 				transacao.getUsuario().getId(), transacao.getUsuario().getUsuario());
@@ -61,11 +63,15 @@ public class TransacaoService {
 	public TransacaoResponseDTO criar(TransacaoRequestDTO request) {
 		Usuario usuario = getUsuarioAtual();
 
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataLocal = LocalDate.parse(request.getData(), formatter);
+        LocalDateTime dataHora = dataLocal.atTime(LocalTime.NOON);
+		
 		Transacao transacao = new Transacao();
 		transacao.setTipo(request.getTipo());
 		transacao.setCategoria(request.getCategoria());
 		transacao.setValor(request.getValor());
-		transacao.setData(LocalDateTime.parse(request.getData(), DateTimeFormatter.ISO_DATE_TIME));
+		transacao.setData(dataHora);
 		transacao.setDescricao(request.getDescricao());
 		transacao.setUsuario(usuario);
 
@@ -81,11 +87,15 @@ public class TransacaoService {
 		if (!transacao.getUsuario().getId().equals(usuario.getId())) {
 			throw new RuntimeException("Acesso negado a esta transação");
 		}
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate dataLocal = LocalDate.parse(request.getData(), formatter);
+        LocalDateTime dataHora = dataLocal.atTime(LocalTime.NOON);
 
 		transacao.setTipo(request.getTipo());
 		transacao.setCategoria(request.getCategoria());
 		transacao.setValor(request.getValor());
-		transacao.setData(LocalDateTime.parse(request.getData(), DateTimeFormatter.ISO_DATE_TIME));
+		transacao.setData(dataHora);
 		transacao.setDescricao(request.getDescricao());
 
 		Transacao atualizada = transacaoRepository.save(transacao);
