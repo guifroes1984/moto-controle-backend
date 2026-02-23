@@ -5,21 +5,14 @@ import com.guifroes1984.moto_controle.enums.TipoTransacao;
 public class TransacaoRequestDTO {
 
 	private TipoTransacao tipo;
-	private String categoria;
+	private Long categoriaId;
 	private Double valor;
 	private String data;
 	private String descricao;
+	private Double litros;
+	private String paymentMethod;
 
 	public TransacaoRequestDTO() {
-	}
-
-	public TransacaoRequestDTO(TipoTransacao tipo, String categoria, Double valor, String data, String descricao) {
-		super();
-		this.tipo = tipo;
-		this.categoria = categoria;
-		this.valor = valor;
-		this.data = data;
-		this.descricao = descricao;
 	}
 
 	public TipoTransacao getTipo() {
@@ -30,12 +23,12 @@ public class TransacaoRequestDTO {
 		this.tipo = tipo;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public Long getCategoriaId() {
+		return categoriaId;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public void setCategoriaId(Long categoriaId) {
+		this.categoriaId = categoriaId;
 	}
 
 	public Double getValor() {
@@ -60,6 +53,22 @@ public class TransacaoRequestDTO {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public Double getLitros() {
+		return litros;
+	}
+
+	public void setLitros(Double litros) {
+		this.litros = litros;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 }

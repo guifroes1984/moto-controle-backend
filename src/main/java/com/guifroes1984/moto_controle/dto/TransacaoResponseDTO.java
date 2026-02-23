@@ -6,7 +6,9 @@ public class TransacaoResponseDTO {
 
 	private Long id;
 	private TipoTransacao tipo;
-	private String categoria;
+	private Long categoriaId;
+	private String categoriaNome;
+
 	private Double valor;
 	private String data;
 	private String descricao;
@@ -16,11 +18,12 @@ public class TransacaoResponseDTO {
 	public TransacaoResponseDTO() {
 	}
 
-	public TransacaoResponseDTO(Long id,  TipoTransacao tipo, String categoria, Double valor, String data,
-			String descricao, Long usuarioId, String usuarioNome) {
+	public TransacaoResponseDTO(Long id, TipoTransacao tipo, Long categoriaId, String categoriaNome, Double valor,
+			String data, String descricao, Long usuarioId, String usuarioNome) {
 		this.id = id;
 		this.tipo = tipo;
-		this.categoria = categoria;
+		this.categoriaId = categoriaId;
+		this.categoriaNome = categoriaNome;
 		this.valor = valor;
 		this.data = data;
 		this.descricao = descricao;
@@ -44,12 +47,20 @@ public class TransacaoResponseDTO {
 		this.tipo = tipo;
 	}
 
-	public String getCategoria() {
-		return categoria;
+	public Long getCategoriaId() {
+		return categoriaId;
 	}
 
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
+	public void setCategoriaId(Long categoriaId) {
+		this.categoriaId = categoriaId;
+	}
+
+	public String getCategoriaNome() {
+		return categoriaNome;
+	}
+
+	public void setCategoriaNome(String categoriaNome) {
+		this.categoriaNome = categoriaNome;
 	}
 
 	public Double getValor() {

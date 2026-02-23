@@ -16,8 +16,10 @@ import com.guifroes1984.moto_controle.dto.ResumoDTO;
 import com.guifroes1984.moto_controle.dto.TransacaoRequestDTO;
 import com.guifroes1984.moto_controle.dto.TransacaoResponseDTO;
 import com.guifroes1984.moto_controle.exception.TransacaoNaoEncontradaException;
+import com.guifroes1984.moto_controle.model.Categoria;
 import com.guifroes1984.moto_controle.model.Transacao;
 import com.guifroes1984.moto_controle.model.Usuario;
+import com.guifroes1984.moto_controle.repository.CategoriaRepository;
 import com.guifroes1984.moto_controle.repository.TransacaoRepository;
 import com.guifroes1984.moto_controle.repository.UsuarioRepository;
 
@@ -29,6 +31,9 @@ public class TransacaoService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
 	public Usuario getUsuarioAtual() {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -38,9 +43,9 @@ public class TransacaoService {
 
 	public TransacaoResponseDTO converterParaDTO(Transacao transacao) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		return new TransacaoResponseDTO(transacao.getId(), transacao.getTipo(), transacao.getCategoria(),
-				transacao.getValor(), transacao.getData().format(formatter), transacao.getDescricao(),
-				transacao.getUsuario().getId(), transacao.getUsuario().getUsuario());
+		return new TransacaoResponseDTO(transacao.getId(), transacao.getTipo(), transacao.getCategoria().getId(),
+				transacao.getCategoria().getNome(), transacao.getValor(), transacao.getData().format(formatter),
+				transacao.getDescricao(), transacao.getUsuario().getId(), transacao.getUsuario().getUsuario());
 	}
 
 	public List<TransacaoResponseDTO> listarTodas() {
@@ -64,12 +69,15 @@ public class TransacaoService {
 		Usuario usuario = getUsuarioAtual();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataLocal = LocalDate.parse(request.getData(), formatter);
-        LocalDateTime dataHora = dataLocal.atTime(LocalTime.NOON);
+		LocalDate dataLocal = LocalDate.parse(request.getData(), formatter);
+		LocalDateTime dataHora = dataLocal.atTime(LocalTime.NOON);
 		
+		Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
+		        .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+
 		Transacao transacao = new Transacao();
 		transacao.setTipo(request.getTipo());
-		transacao.setCategoria(request.getCategoria());
+		transacao.setCategoria(categoria);
 		transacao.setValor(request.getValor());
 		transacao.setData(dataHora);
 		transacao.setDescricao(request.getDescricao());
@@ -87,13 +95,16 @@ public class TransacaoService {
 		if (!transacao.getUsuario().getId().equals(usuario.getId())) {
 			throw new RuntimeException("Acesso negado a esta transação");
 		}
-		
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate dataLocal = LocalDate.parse(request.getData(), formatter);
-        LocalDateTime dataHora = dataLocal.atTime(LocalTime.NOON);
+		LocalDate dataLocal = LocalDate.parse(request.getData(), formatter);
+		LocalDateTime dataHora = dataLocal.atTime(LocalTime.NOON);
+		
+		Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
+		        .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
 		transacao.setTipo(request.getTipo());
-		transacao.setCategoria(request.getCategoria());
+		transacao.setCategoria(categoria);
 		transacao.setValor(request.getValor());
 		transacao.setData(dataHora);
 		transacao.setDescricao(request.getDescricao());

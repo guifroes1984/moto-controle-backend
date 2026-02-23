@@ -28,9 +28,6 @@ public class Transacao {
 	private TipoTransacao tipo;
 
 	@Column(nullable = false)
-	private String categoria;
-
-	@Column(nullable = false)
 	private Double valor;
 
 	@Column(nullable = false)
@@ -42,18 +39,22 @@ public class Transacao {
 	@JoinColumn(name = "usuario_id", nullable = false)
 	private Usuario usuario;
 
+	@ManyToOne
+	@JoinColumn(name = "categoria_id", nullable = false)
+	private Categoria categoria;
+
 	public Transacao() {
 	}
 
-	public Transacao(Long id, TipoTransacao tipo, String categoria, Double valor, LocalDateTime data, String descricao,
-			Usuario usuario) {
+	public Transacao(Long id, TipoTransacao tipo, Double valor, LocalDateTime data, String descricao, Usuario usuario,
+			Categoria categoria) {
 		this.id = id;
 		this.tipo = tipo;
-		this.categoria = categoria;
 		this.valor = valor;
 		this.data = data;
 		this.descricao = descricao;
 		this.usuario = usuario;
+		this.categoria = categoria;
 	}
 
 	public Long getId() {
@@ -70,14 +71,6 @@ public class Transacao {
 
 	public void setTipo(TipoTransacao tipo) {
 		this.tipo = tipo;
-	}
-
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
 	}
 
 	public Double getValor() {
@@ -110,6 +103,14 @@ public class Transacao {
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
 }
