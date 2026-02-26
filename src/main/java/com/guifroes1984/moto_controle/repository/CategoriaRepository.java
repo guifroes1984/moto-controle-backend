@@ -16,5 +16,8 @@ public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
 	@Query("SELECT c FROM Categoria c WHERE (c.usuario IS NULL OR c.usuario = :usuario) AND c.tipo = :tipo AND c.ativa = true ORDER BY c.ordem")
 	List<Categoria> findCategoriasUsuario(@Param("usuario") Usuario usuario, @Param("tipo") TipoCategoria tipo);
+	
+	@Query("SELECT c FROM Categoria c WHERE (c.usuario IS NULL OR c.usuario = :usuario) AND c.tipo = :tipo AND c.ativa = true ORDER BY c.ordem")
+	List<Categoria> findCategoriasDisponiveis(@Param("usuario") Usuario usuario, @Param("tipo") TipoCategoria tipo);
 
 }

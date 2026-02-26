@@ -8,18 +8,19 @@ public class TransacaoResponseDTO {
 	private TipoTransacao tipo;
 	private Long categoriaId;
 	private String categoriaNome;
-
 	private Double valor;
 	private String data;
 	private String descricao;
 	private Long usuarioId;
 	private String usuarioNome;
+	private Double litros;
+	private String paymentMethod;
 
 	public TransacaoResponseDTO() {
 	}
 
 	public TransacaoResponseDTO(Long id, TipoTransacao tipo, Long categoriaId, String categoriaNome, Double valor,
-			String data, String descricao, Long usuarioId, String usuarioNome) {
+			String data, String descricao, Long usuarioId, String usuarioNome, Double litros, String paymentMethod) {
 		this.id = id;
 		this.tipo = tipo;
 		this.categoriaId = categoriaId;
@@ -29,6 +30,8 @@ public class TransacaoResponseDTO {
 		this.descricao = descricao;
 		this.usuarioId = usuarioId;
 		this.usuarioNome = usuarioNome;
+		this.litros = litros;
+		this.paymentMethod = paymentMethod;
 	}
 
 	public Long getId() {
@@ -101,6 +104,22 @@ public class TransacaoResponseDTO {
 
 	public void setUsuarioNome(String usuarioNome) {
 		this.usuarioNome = usuarioNome;
+	}
+
+	public Double getLitros() {
+		return litros;
+	}
+
+	public void setLitros(Double litros) {
+		this.litros = litros;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 }

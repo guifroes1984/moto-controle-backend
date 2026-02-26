@@ -35,6 +35,11 @@ public class Transacao {
 
 	private String descricao;
 
+	private Double litros;
+	
+	@Column(name = "payment_method", length = 50)
+	private String paymentMethod;
+
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", nullable = false)
 	private Usuario usuario;
@@ -111,6 +116,22 @@ public class Transacao {
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+
+	public void setLitros(Double litros) {
+		this.litros = litros;
+	}
+
+	public Double getLitros() {
+		return litros;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public String getPaymentMethod() {
+		return paymentMethod;
 	}
 
 }

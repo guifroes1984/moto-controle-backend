@@ -31,7 +31,7 @@ public class TransacaoService {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
@@ -43,9 +43,11 @@ public class TransacaoService {
 
 	public TransacaoResponseDTO converterParaDTO(Transacao transacao) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
 		return new TransacaoResponseDTO(transacao.getId(), transacao.getTipo(), transacao.getCategoria().getId(),
 				transacao.getCategoria().getNome(), transacao.getValor(), transacao.getData().format(formatter),
-				transacao.getDescricao(), transacao.getUsuario().getId(), transacao.getUsuario().getUsuario());
+				transacao.getDescricao(), transacao.getUsuario().getId(), transacao.getUsuario().getUsuario(),
+				transacao.getLitros(), transacao.getPaymentMethod());
 	}
 
 	public List<TransacaoResponseDTO> listarTodas() {
@@ -71,9 +73,9 @@ public class TransacaoService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate dataLocal = LocalDate.parse(request.getData(), formatter);
 		LocalDateTime dataHora = dataLocal.atTime(LocalTime.NOON);
-		
+
 		Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
-		        .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+				.orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
 		Transacao transacao = new Transacao();
 		transacao.setTipo(request.getTipo());
@@ -83,12 +85,16 @@ public class TransacaoService {
 		transacao.setDescricao(request.getDescricao());
 		transacao.setUsuario(usuario);
 
+		transacao.setLitros(request.getLitros());
+		transacao.setPaymentMethod(request.getPaymentMethod());
+
 		Transacao salva = transacaoRepository.save(transacao);
 		return converterParaDTO(salva);
 	}
 
 	public TransacaoResponseDTO atualizar(Long id, TransacaoRequestDTO request) {
 		Usuario usuario = getUsuarioAtual();
+
 		Transacao transacao = transacaoRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Transação não encontrada"));
 
@@ -99,18 +105,24 @@ public class TransacaoService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		LocalDate dataLocal = LocalDate.parse(request.getData(), formatter);
 		LocalDateTime dataHora = dataLocal.atTime(LocalTime.NOON);
-		
+
 		Categoria categoria = categoriaRepository.findById(request.getCategoriaId())
-		        .orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
+				.orElseThrow(() -> new RuntimeException("Categoria não encontrada"));
 
 		transacao.setTipo(request.getTipo());
 		transacao.setCategoria(categoria);
 		transacao.setValor(request.getValor());
 		transacao.setData(dataHora);
 		transacao.setDescricao(request.getDescricao());
+		transacao.setLitros(request.getLitros());
+		transacao.setPaymentMethod(request.getPaymentMethod());
 
 		Transacao atualizada = transacaoRepository.save(transacao);
-		return converterParaDTO(atualizada);
+
+		Transacao transacaoRecarregada = transacaoRepository.findById(atualizada.getId())
+				.orElseThrow(() -> new RuntimeException("Erro ao recarregar transação"));
+
+		return converterParaDTO(transacaoRecarregada);
 	}
 
 	public void deletar(Long id) {
