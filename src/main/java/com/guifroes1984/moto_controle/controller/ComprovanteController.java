@@ -3,6 +3,8 @@ package com.guifroes1984.moto_controle.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +47,21 @@ public class ComprovanteController {
 			return ResponseEntity.internalServerError().body("Erro ao fazer upload: " + e.getMessage());
 		}
 
+	}
+	
+	@GetMapping("/transacao/{transacaoId}")
+	public ResponseEntity<?> buscarComprovante(@PathVariable Long transacaoId) {
+		Comprovante comprovante = comprovanteService.buscarPorTransacaoId(transacaoId);
+		if (comprovante == null) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(comprovante);
+	}
+	
+	@DeleteMapping("/transacao/{transacaoId}")
+	public ResponseEntity<?> deletarComprovate(@PathVariable Long transacaoId) {
+		comprovanteService.deletarPorTransacaoId(transacaoId);
+		return ResponseEntity.ok().build();
 	}
 
 }
