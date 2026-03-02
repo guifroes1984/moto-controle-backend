@@ -23,6 +23,9 @@ public class Comprovante {
 	private String nomeOriginal;
 
 	@Column(nullable = false)
+	private String nomeArquivo;
+
+	@Column(nullable = false)
 	private String tipoArquivo;
 
 	@Column(nullable = false)
@@ -55,6 +58,14 @@ public class Comprovante {
 
 	public void setNomeOriginal(String nomeOriginal) {
 		this.nomeOriginal = nomeOriginal;
+	}
+
+	public String getNomeArquivo() {
+		return nomeArquivo;
+	}
+
+	public void setNomeArquivo(String nomeArquivo) {
+		this.nomeArquivo = nomeArquivo;
 	}
 
 	public String getTipoArquivo() {
@@ -96,7 +107,5 @@ public class Comprovante {
 	public void setTransacao(Transacao transacao) {
 		this.transacao = transacao;
 	}
-	
-	
 
 }
