@@ -41,8 +41,8 @@ public class ComprovanteController {
 		}
 		
 		try {
-			Comprovante comprovante = comprovanteService.salvarComprovate(transacaoId, arquivo);
-			return ResponseEntity.ok(comprovante);
+			Comprovante comprovante = comprovanteService.salvarComprovante(transacaoId, arquivo);
+			return ResponseEntity.ok(comprovanteService.converterParaDTO(comprovante));
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body("Erro ao fazer upload: " + e.getMessage());
 		}
@@ -55,7 +55,7 @@ public class ComprovanteController {
 		if (comprovante == null) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(comprovante);
+		return ResponseEntity.ok(comprovanteService.converterParaDTO(comprovante));
 	}
 	
 	@DeleteMapping("/transacao/{transacaoId}")

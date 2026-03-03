@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.guifroes1984.moto_controle.dto.ComprovanteResponseDTO;
 import com.guifroes1984.moto_controle.model.Comprovante;
 import com.guifroes1984.moto_controle.model.Transacao;
 import com.guifroes1984.moto_controle.repository.ComprovanteRepository;
@@ -30,7 +32,15 @@ public class ComprovanteService {
 	@Autowired
 	private TransacaoRepository transacaoRepository;
 
-	public Comprovante salvarComprovate(Long transacaoId, MultipartFile arquivo) {
+	public ComprovanteResponseDTO converterParaDTO(Comprovante comprovante) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		return new ComprovanteResponseDTO(comprovante.getId(), comprovante.getNomeOriginal(),
+				comprovante.getNomeArquivo(), comprovante.getTipoArquivo(), comprovante.getTamanho(),
+				comprovante.getCaminho(), comprovante.getDataUpload().format(formatter),
+				comprovante.getTransacao().getId(), comprovante.getTransacao().getDescricao());
+	}
+
+	public Comprovante salvarComprovante(Long transacaoId, MultipartFile arquivo) {
 		try {
 			Transacao transacao = transacaoRepository.findById(transacaoId)
 					.orElseThrow(() -> new RuntimeException("Transação não encontrada"));
