@@ -38,7 +38,8 @@ public class SecurityConfig {
 		                    "/swagger-ui.html",
 		                    "/swagger-ui/**",
 		                    "/v3/api-docs/**",
-		                    "/api-docs/**"
+		                    "/api-docs/**", 
+		                    "/uploads/**" 
 							).permitAll().anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authenticationProvider(authenticationProvider())

@@ -57,11 +57,13 @@ public class ComprovanteController {
 
 		try {
 			Comprovante comprovante = comprovanteService.salvarComprovante(transacaoId, arquivo);
-			return ResponseEntity.ok(comprovanteService.converterParaDTO(comprovante));
+
+			ComprovanteResponseDTO dto = comprovanteService.converterParaDTO(comprovante);
+			return ResponseEntity.ok(dto);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return ResponseEntity.internalServerError().body("Erro ao fazer upload: " + e.getMessage());
 		}
-
 	}
 
 	@Operation(summary = "Buscar comprovante por transação", description = "Retorna os dados do comprovante associado a uma transação")

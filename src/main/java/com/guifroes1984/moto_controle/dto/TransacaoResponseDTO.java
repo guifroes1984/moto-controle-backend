@@ -15,12 +15,13 @@ public class TransacaoResponseDTO {
 	private String usuarioNome;
 	private Double litros;
 	private String paymentMethod;
+	private boolean temComprovante;
 
 	public TransacaoResponseDTO() {
 	}
 
 	public TransacaoResponseDTO(Long id, TipoTransacao tipo, Long categoriaId, String categoriaNome, Double valor,
-			String data, String descricao, Long usuarioId, String usuarioNome, Double litros, String paymentMethod) {
+			String data, String descricao, Long usuarioId, String usuarioNome, Double litros, String paymentMethod, boolean temComprovante) {
 		this.id = id;
 		this.tipo = tipo;
 		this.categoriaId = categoriaId;
@@ -32,6 +33,7 @@ public class TransacaoResponseDTO {
 		this.usuarioNome = usuarioNome;
 		this.litros = litros;
 		this.paymentMethod = paymentMethod;
+		this.temComprovante = temComprovante;
 	}
 
 	public Long getId() {
@@ -120,6 +122,14 @@ public class TransacaoResponseDTO {
 
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+	
+	public boolean isTemComprovante() {
+		return temComprovante;
+	}
+	
+	public void setTemComprovante(boolean temComprovante) {
+		this.temComprovante = temComprovante;
 	}
 
 }

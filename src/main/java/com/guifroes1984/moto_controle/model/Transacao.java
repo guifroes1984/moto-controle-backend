@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.guifroes1984.moto_controle.enums.TipoTransacao;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -47,6 +49,9 @@ public class Transacao {
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", nullable = false)
 	private Categoria categoria;
+	
+	@OneToOne(mappedBy = "transacao", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Comprovante comprovante;
 
 	public Transacao() {
 	}
@@ -132,6 +137,14 @@ public class Transacao {
 
 	public String getPaymentMethod() {
 		return paymentMethod;
+	}
+	
+	public void setComprovante(Comprovante comprovante) {
+		this.comprovante = comprovante;
+	}
+	
+	public Comprovante getComprovante() {
+		return comprovante;
 	}
 
 }

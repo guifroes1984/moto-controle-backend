@@ -87,14 +87,24 @@ public class ComprovanteService {
 	}
 
 	public void deletarPorTransacaoId(Long transacaoId) {
-		comprovanteRepository.findByTransacaoId(transacaoId).ifPresent(comprovante -> {
-			try {
-				Files.deleteIfExists(Paths.get(uploadDir + "/" + comprovante.getNomeArquivo()));
-				comprovanteRepository.delete(comprovante);
-			} catch (IOException e) {
-				throw new RuntimeException("Erro ao deletar arquivo", e);
-			}
-		});
+	    comprovanteRepository.findByTransacaoId(transacaoId).ifPresent(comprovante -> {
+	        try {
+	            Path filePath = Paths.get(uploadDir).resolve(comprovante.getNomeArquivo());
+	            Files.deleteIfExists(filePath);
+
+	            comprovanteRepository.delete(comprovante);
+	            comprovanteRepository.flush();
+
+	            Transacao transacao = transacaoRepository.findById(transacaoId).orElse(null);
+	            if (transacao != null) {
+	                transacao.setComprovante(null);
+	                transacaoRepository.save(transacao);
+	            }
+	            
+	        } catch (IOException e) {
+	            throw new RuntimeException("Erro ao deletar arquivo", e);
+	        }
+	    });
 	}
 
 }

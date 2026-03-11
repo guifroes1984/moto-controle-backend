@@ -47,7 +47,7 @@ public class TransacaoService {
 		return new TransacaoResponseDTO(transacao.getId(), transacao.getTipo(), transacao.getCategoria().getId(),
 				transacao.getCategoria().getNome(), transacao.getValor(), transacao.getData().format(formatter),
 				transacao.getDescricao(), transacao.getUsuario().getId(), transacao.getUsuario().getUsuario(),
-				transacao.getLitros(), transacao.getPaymentMethod());
+				transacao.getLitros(), transacao.getPaymentMethod(), transacao.getComprovante() != null);
 	}
 
 	public List<TransacaoResponseDTO> listarTodas() {
